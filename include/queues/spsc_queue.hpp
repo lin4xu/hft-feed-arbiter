@@ -16,17 +16,22 @@ private:
     T buffer_[Capacity];
 
     CacheLinePad<std::atomic<std::size_t>> tail_{0};
+    alignas(64) std::size_t cached_head_{0}; 
+
     CacheLinePad<std::atomic<std::size_t>> head_{0};
+    alignas(64) std::size_t cached_tail_{0}; 
 
 public:
     SPSCQueue() = default;
 
     bool try_push(const T& item) {
         const std::size_t current_tail = tail_->load(std::memory_order_relaxed);
-        const std::size_t current_head = head_->load(std::memory_order_acquire);
-
-        if (current_tail - current_head >= Capacity) {
-            return false; 
+        
+        if (current_tail - cached_head_ >= Capacity) {
+            cached_head_ = head_->load(std::memory_order_acquire);
+            if (current_tail - cached_head_ >= Capacity) {
+                return false; 
+            }
         }
 
         buffer_[current_tail & MASK] = item;
@@ -36,10 +41,12 @@ public:
 
     bool try_pop(T& out_item) {
         const std::size_t current_head = head_->load(std::memory_order_relaxed);
-        const std::size_t current_tail = tail_->load(std::memory_order_acquire);
-
-        if (current_tail == current_head) {
-            return false; 
+        
+        if (cached_tail_ == current_head) {
+            cached_tail_ = tail_->load(std::memory_order_acquire);
+            if (cached_tail_ == current_head) {
+                return false; 
+            }
         }
 
         out_item = buffer_[current_head & MASK];
@@ -48,4 +55,4 @@ public:
     }
 };
 
-} // namespace hft
+}

@@ -1,13 +1,9 @@
-# benchmarks/CMakeLists.txt
-
 include(FetchContent)
 
 message(STATUS "Downloading Google Benchmark...")
 
-# 👇 核心修复 1：强行关闭 Benchmark 的警告即错误机制 (解决 MSVC 下正则检测失败的 BUG)
 set(BENCHMARK_ENABLE_WERROR OFF CACHE BOOL "Disable warnings as errors" FORCE)
 
-# 👇 核心修复 2：关闭 Benchmark 自带的测试项目
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable benchmark testing" FORCE)
 
 FetchContent_Declare(

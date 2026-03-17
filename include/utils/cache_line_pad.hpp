@@ -4,7 +4,7 @@
 
 namespace hft {
 
-// 强制按 64 字节（主流 CPU 的 Cache Line 大小）对齐
+// 强制按 64 字节对齐
 template <typename T>
 struct alignas(64) CacheLinePad {
     T data;
@@ -20,4 +20,4 @@ struct alignas(64) CacheLinePad {
     const T& operator*() const { return data; }
 };
 
-} // namespace hft
+}
