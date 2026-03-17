@@ -1,0 +1,20 @@
+# .gitignore
+
+# 忽略 CMake 生成的构建目录
+build/
+out/
+bin/
+
+# 忽略编译器和操作系统的临时文件
+*.obj
+*.exe
+*.pdb
+*.ilk
+.DS_Store
+
+# 忽略 Visual Studio 的隐藏缓存文件夹
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
