@@ -1,9 +1,6 @@
-# HFT Feed Arbiter (高频交易多源行情仲裁器)
+# HFT Feed Arbiter
 
-A ultra-low latency multi-source market data deduplication and distribution engine.
-（一个追求极低延迟的多源行情去重与分发引擎）
-
-本项目不仅包含了行情仲裁的核心数据结构（如缓存行对齐的极致无锁 SPSC/MPSC 队列），还包含了一个极为硬核的 **高频并发模型基准测试 (Benchmark)** ，用于深刻揭示在微秒/纳秒级延迟要求下，不同多线程架构的真实性能表现。
+本项目是一个追求极低延迟的多源行情去重与分发引擎，不仅包含了行情仲裁的核心数据结构（如缓存行对齐的极致无锁 SPSC/MPSC 队列），还包含了一个极为硬核的 **高频并发模型基准测试 (Benchmark)** ，用于深刻揭示在微秒/纳秒级延迟要求下，不同多线程架构的真实性能表现。
 
 ---
 
